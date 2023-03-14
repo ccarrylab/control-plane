@@ -4,23 +4,27 @@ metadata:
   name: clusters
 spec:
   generators:
-  - clusters:
-      selector:
-        matchExpressions:
-        - {key: 'akuity.io/argo-cd-cluster-name', operator: NotIn, values: [in-cluster]}
+    - clusters:
+        selector:
+          matchExpressions:
+            - {
+                key: "akuity.io/argo-cd-cluster-name",
+                operator: NotIn,
+                values: [in-cluster],
+              }
   template:
     metadata:
-      name: 'cluster-{{name}}'
+      name: "cluster-{{name}}"
     spec:
       project: default
       source:
-        repoURL: https://github.com/<username>/control-plane
+        repoURL: https://github.com/ccarrylab/control-plane
         targetRevision: HEAD
-        path: 'clusters/{{name}}'
+        path: "clusters/{{name}}"
         directory:
           recurse: true
       destination:
-        name: '{{name}}'
-        namespace: '*'
+        name: "{{name}}"
+        namespace: "*"
       syncPolicy:
         automated: {}

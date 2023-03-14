@@ -6,15 +6,13 @@ metadata:
   name: argocd
 spec:
   destination:
-    name: 'in-cluster'
-    namespace: 'argocd'
+    name: "in-cluster"
+    namespace: "argocd"
   project: default
   source:
     path: argocd/
-    repoURL: https://github.com/<username>/control-plane
+    repoURL: https://github.com/ccarrylab/control-plane
     directory:
       recurse: true
   syncPolicy:
     automated: {}
-
-    

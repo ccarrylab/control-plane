@@ -7,30 +7,34 @@ spec:
     - matrix:
         generators:
           - list:
-              elements:  # from /charts/
-              - addonChart: external-secrets
-              - addonChart: kyverno
+              elements: # from /charts/
+                - addonChart: external-secrets
+                - addonChart: kyverno
           - clusters:
               selector:
                 matchExpressions:
-                - {key: 'akuity.io/argo-cd-cluster-name', operator: NotIn, values: [in-cluster]}
+                  - {
+                      key: "akuity.io/argo-cd-cluster-name",
+                      operator: NotIn,
+                      values: [in-cluster],
+                    }
   template:
     metadata:
-      name: 'addon-{{name}}-{{addonChart}}'
+      name: "addon-{{name}}-{{addonChart}}"
     spec:
       project: default
       source:
         helm:
           valueFiles:
-          - '../../clusters/{{name}}/addons-values.yaml'
-        repoURL: 'https://github.com/<username>/control-plane'
+            - "../../clusters/{{name}}/addons-values.yaml"
+        repoURL: "https://github.com/ccarrylab/control-plane"
         path: charts/{{addonChart}}
         targetRevision: HEAD
       destination:
-        namespace: '{{addonChart}}'
-        name: '{{name}}'
+        namespace: "{{addonChart}}"
+        name: "{{name}}"
       syncPolicy:
         automated: {}
         syncOptions:
           - CreateNamespace=true
-          - ServerSideApply=true  # Big CRDs.
+          - ServerSideApply=true # Big CRDs.
